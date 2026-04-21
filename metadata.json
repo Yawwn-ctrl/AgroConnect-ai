@@ -1,0 +1,5 @@
+{
+  "name": "AgroConnect AI - Smart Farming",
+  "description": "A comprehensive AI-powered farming assistant providing soil health monitoring, weather-based crop suggestions, government scheme matching, and real-time disease diagnosis.",
+  "requestFramePermissions": ["geolocation"]
+}

@@ -1,0 +1,205 @@
+{
+  "entities": {
+    "User": {
+      "title": "User Profile",
+      "description": "Farmer profile information including location and eligibility data.",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string" },
+        "name": { "type": "string" },
+        "phoneNumber": { "type": "string", "description": "Farmer's contact number for IVR/SMS alerts" },
+        "location": {
+          "type": "object",
+          "properties": {
+            "latitude": { "type": "number" },
+            "longitude": { "type": "number" },
+            "address": { "type": "string" }
+          }
+        },
+        "lands": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": { "type": "string" },
+              "name": { "type": "string" },
+              "location": {
+                "type": "object",
+                "properties": {
+                  "latitude": { "type": "number" },
+                  "longitude": { "type": "number" },
+                  "address": { "type": "string" }
+                }
+              },
+              "soilType": { "type": "string" },
+              "size": { "type": "number" },
+              "primaryCrops": { "type": "array", "items": { "type": "string" } }
+            }
+          }
+        },
+        "landSize": { "type": "number", "description": "Land size in acres" },
+        "primaryCrops": { "type": "array", "items": { "type": "string" } },
+        "soilType": { "type": "string" },
+        "income": { "type": "number" },
+        "category": { "type": "string", "enum": ["Small", "Marginal", "Large"] },
+        "isAadharLinked": { "type": "boolean" }
+      },
+      "required": ["uid", "name"]
+    },
+    "MarketProduct": {
+      "title": "Market Product",
+      "description": "Agricultural product listed for sale by a farmer.",
+      "type": "object",
+      "properties": {
+        "sellerId": { "type": "string" },
+        "sellerName": { "type": "string" },
+        "commodity": { "type": "string" },
+        "quantity": { "type": "number" },
+        "unit": { "type": "string" },
+        "pricePerUnit": { "type": "number" },
+        "location": { "type": "string" },
+        "dateListed": { "type": "string", "format": "date-time" },
+        "status": { "type": "string", "enum": ["available", "sold"] }
+      },
+      "required": ["sellerId", "commodity", "quantity", "pricePerUnit", "status"]
+    },
+    "SoilHealthCard": {
+      "title": "Soil Health Card",
+      "description": "Nutrient levels and health data for a farmer's soil.",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string" },
+        "nitrogen": { "type": "number", "description": "N content in kg/ha" },
+        "phosphorus": { "type": "number", "description": "P content in kg/ha" },
+        "potassium": { "type": "number", "description": "K content in kg/ha" },
+        "ph": { "type": "number" },
+        "organicCarbon": { "type": "number", "description": "Percentage" },
+        "lastUpdated": { "type": "string", "format": "date-time" }
+      },
+      "required": ["uid"]
+    },
+    "NationalScheme": {
+      "title": "Government Scheme",
+      "description": "Information about national farming schemes and eligibility.",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "description": { "type": "string" },
+        "eligibilityCriteria": { "type": "object" },
+        "benefits": { "type": "string" },
+        "link": { "type": "string" },
+        "category": { "type": "string" }
+      },
+      "required": ["name", "description"]
+    },
+    "DiseaseRemedy": {
+      "title": "Disease and Remedy",
+      "description": "Database of crop diseases and their treatments.",
+      "type": "object",
+      "properties": {
+        "diseaseName": { "type": "string" },
+        "cropAffected": { "type": "string" },
+        "symptoms": { "type": "array", "items": { "type": "string" } },
+        "remedy": { "type": "string" },
+        "prevention": { "type": "string" },
+        "trending": { "type": "boolean" }
+      },
+      "required": ["diseaseName", "cropAffected"]
+    },
+    "ChatMessage": {
+      "title": "Chat Message",
+      "description": "History of AI assistant interactions.",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string" },
+        "role": { "type": "string", "enum": ["user", "model"] },
+        "content": { "type": "string" },
+        "timestamp": { "type": "string", "format": "date-time" }
+      },
+      "required": ["uid", "role", "content"]
+    },
+    "LabTestRequest": {
+      "title": "Lab Soil Test Request",
+      "description": "Request for a professional lab analysis of a soil sample.",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string" },
+        "landId": { "type": "string" },
+        "status": { "type": "string", "enum": ["pending", "collected", "processing", "completed"] },
+        "requestDate": { "type": "string", "format": "date-time" },
+        "amount": { "type": "number" }
+      },
+      "required": ["uid", "landId", "status", "requestDate", "amount"]
+    },
+    "Reminder": {
+      "title": "Farm Activity Reminder",
+      "description": "Reminder for farm activities like watering or fertilizing.",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string" },
+        "title": { "type": "string" },
+        "description": { "type": "string" },
+        "activityType": { "type": "string", "enum": ["fertilizer", "watering", "harvesting", "pesticide", "other"] },
+        "dueDate": { "type": "string", "format": "date-time" },
+        "isCompleted": { "type": "boolean" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["uid", "title", "activityType", "dueDate", "isCompleted"]
+    },
+    "LabourListing": {
+      "title": "Labour Listing",
+      "description": "A self-listing of a worker offering farm labour.",
+      "type": "object",
+      "properties": {
+        "workerId": { "type": "string" },
+        "workerName": { "type": "string" },
+        "skills": { "type": "array", "items": { "type": "string" } },
+        "wagePerHour": { "type": "number" },
+        "location": { "type": "string" },
+        "experienceYears": { "type": "number" },
+        "availability": { "type": "string", "enum": ["available", "busy"] },
+        "dateListed": { "type": "string", "format": "date-time" },
+        "rating": { "type": "number" }
+      },
+      "required": ["workerId", "workerName", "skills", "wagePerHour", "availability"]
+    }
+  },
+  "firestore": {
+    "/labour_listings/{listingId}": {
+      "schema": "LabourListing",
+      "description": "Global marketplace for farm labour"
+    },
+    "/users/{uid}": {
+      "schema": "User",
+      "description": "User profile documents"
+    },
+    "/users/{uid}/soilHealth/{landId}": {
+      "schema": "SoilHealthCard",
+      "description": "Soil health data for a specific land of the user"
+    },
+    "/market_products/{productId}": {
+      "schema": "MarketProduct",
+      "description": "Global marketplace for agricultural products"
+    },
+    "/users/{uid}/chatHistory/{messageId}": {
+      "schema": "ChatMessage",
+      "description": "AI assistant chat history"
+    },
+    "/schemes/{schemeId}": {
+      "schema": "NationalScheme",
+      "description": "Global database of government schemes"
+    },
+    "/diseases/{diseaseId}": {
+      "schema": "DiseaseRemedy",
+      "description": "Global database of crop diseases"
+    },
+    "/labTests/{testId}": {
+      "schema": "LabTestRequest",
+      "description": "Requests for professional soil testing"
+    },
+    "/reminders/{reminderId}": {
+      "schema": "Reminder",
+      "description": "User-specific farm activity reminders"
+    }
+  }
+}
