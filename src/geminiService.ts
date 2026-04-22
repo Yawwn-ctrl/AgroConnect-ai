@@ -1,9 +1,17 @@
 import OpenAI from "openai";
 
-const client = new OpenAI({
-  apiKey: process.env.OPENROUTER_API_KEY,
-  baseURL: "https://openrouter.ai/api/v1",
-});
+let _client: OpenAI | null = null;
+
+const getClient = () => {
+  if (!_client) {
+    _client = new OpenAI({
+      apiKey: process.env.OPENROUTER_API_KEY,
+      baseURL: "https://openrouter.ai/api/v1",
+      dangerouslyAllowBrowser: true,
+    });
+  }
+  return _client;
+};
 
 /* ---------------- MANDI PRICES ---------------- */
 
@@ -33,7 +41,7 @@ const handleToolCall = async (fnName: string, args: any) => {
 /* ---------------- CORE AI CALL ---------------- */
 
 async function askAI(prompt: string) {
-  const completion = await client.chat.completions.create({
+  const completion = await getClient().chat.completions.create({
     model: "meta-llama/llama-3.1-8b-instruct:free",
     messages: [
       {
