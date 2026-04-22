@@ -4,8 +4,9 @@ let _client: OpenAI | null = null;
 
 const getClient = () => {
   if (!_client) {
+    const apiKey = process.env.OPENROUTER_API_KEY || "missing-key";
     _client = new OpenAI({
-      apiKey: process.env.OPENROUTER_API_KEY,
+      apiKey,
       baseURL: "https://openrouter.ai/api/v1",
       dangerouslyAllowBrowser: true,
     });
